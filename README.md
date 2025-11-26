@@ -1,6 +1,6 @@
 # 🤖 Droido
 
-A lightweight, debug-only network inspector for Flutter with a clean, modern UI and persistent notification. Built with clean architecture principles and zero impact on release builds.
+A lightweight, debug-only network inspector for Flutter apps using **Dio HTTP client**. Features a clean, modern UI with persistent notification. Built with clean architecture principles and zero impact on release builds.
 
 [![pub package](https://img.shields.io/pub/v/droido.svg)](https://pub.dev/packages/droido)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -48,6 +48,8 @@ Add required permissions to `android/app/src/main/AndroidManifest.xml`:
 </manifest>
 ```
 
+**Note:** On Android 13+, notification permission will be **automatically requested** when Droido initializes. Users will see a system permission dialog on first launch.
+
 ### iOS Setup
 
 No additional setup required for iOS.
@@ -91,6 +93,7 @@ await Droido.init(
     maxLogs: 500,                      // Maximum logs to keep
     enableNotification: true,          // Show notification
     notificationTitle: 'Debug Active', // Notification title
+    notificationOngoing: false,        // Set to false to allow dismissing (default: true)
     includeRequestHeaders: true,       // Log request headers
     includeResponseHeaders: true,      // Log response headers
     includeRequestBody: true,          // Log request body
@@ -224,6 +227,7 @@ Automatically shown when tapping a request card. Shows:
 | `maxLogs` | `int` | `500` | Maximum number of logs to keep in memory |
 | `enableNotification` | `bool` | `true` | Show persistent notification |
 | `notificationTitle` | `String` | `'Debug Active'` | Notification title text |
+| `notificationOngoing` | `bool` | `true` | Make notification non-dismissable (persistent until app closed) |
 | `notificationChannelId` | `String` | `'droido_debug_channel'` | Android notification channel ID |
 | `notificationChannelName` | `String` | `'Droido Debug'` | Android notification channel name |
 | `includeRequestHeaders` | `bool` | `true` | Include request headers in logs |

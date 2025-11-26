@@ -19,7 +19,7 @@ class MemoryLogRepository implements LogRepository {
 
   @override
   List<NetworkLog> getLogs() {
-    return List.unmodifiable(_logs);
+    return List.unmodifiable(_logs.reversed);
   }
 
   @override
@@ -31,7 +31,7 @@ class MemoryLogRepository implements LogRepository {
       _logs.removeAt(0);
     }
 
-    _logsController.add(List.unmodifiable(_logs));
+    _logsController.add(List.unmodifiable(_logs.reversed));
   }
 
   @override
@@ -39,14 +39,14 @@ class MemoryLogRepository implements LogRepository {
     final index = _logs.indexWhere((l) => l.id == log.id);
     if (index != -1) {
       _logs[index] = log;
-      _logsController.add(List.unmodifiable(_logs));
+      _logsController.add(List.unmodifiable(_logs.reversed));
     }
   }
 
   @override
   Future<void> deleteLog(String id) async {
     _logs.removeWhere((log) => log.id == id);
-    _logsController.add(List.unmodifiable(_logs));
+    _logsController.add(List.unmodifiable(_logs.reversed));
   }
 
   @override
@@ -67,7 +67,7 @@ class MemoryLogRepository implements LogRepository {
   @override
   List<NetworkLog> searchLogs(String query) {
     final lowerQuery = query.toLowerCase();
-    return _logs.where((log) {
+    return _logs.reversed.where((log) {
       return log.url.toLowerCase().contains(lowerQuery) ||
           log.method.toLowerCase().contains(lowerQuery) ||
           (log.statusCode?.toString().contains(query) ?? false) ||
@@ -84,7 +84,7 @@ class MemoryLogRepository implements LogRepository {
     DateTime? startDate,
     DateTime? endDate,
   }) {
-    return _logs.where((log) {
+    return _logs.reversed.where((log) {
       if (method != null && log.method != method) return false;
       if (statusCode != null && log.statusCode != statusCode) return false;
       if (isSuccessful != null && log.isSuccessful != isSuccessful) {

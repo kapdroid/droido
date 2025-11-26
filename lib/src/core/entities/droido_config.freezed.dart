@@ -29,6 +29,13 @@ mixin _$DroidoConfig {
   /// Notification channel name (Android)
   String get notificationChannelName;
 
+  /// Make notification non-dismissable (ongoing)
+  ///
+  /// When true, the notification cannot be swiped away and will persist
+  /// until the app is closed or Droido is disposed. Useful for ensuring
+  /// debug panel is always accessible.
+  bool get notificationOngoing;
+
   /// External FlutterLocalNotificationsPlugin instance
   ///
   /// Provide this if your app already has a notification plugin instance
@@ -76,6 +83,8 @@ mixin _$DroidoConfig {
             (identical(
                     other.notificationChannelName, notificationChannelName) ||
                 other.notificationChannelName == notificationChannelName) &&
+            (identical(other.notificationOngoing, notificationOngoing) ||
+                other.notificationOngoing == notificationOngoing) &&
             (identical(other.externalNotificationPlugin,
                     externalNotificationPlugin) ||
                 other.externalNotificationPlugin ==
@@ -102,6 +111,7 @@ mixin _$DroidoConfig {
       notificationTitle,
       notificationChannelId,
       notificationChannelName,
+      notificationOngoing,
       externalNotificationPlugin,
       includeRequestHeaders,
       includeResponseHeaders,
@@ -112,7 +122,7 @@ mixin _$DroidoConfig {
 
   @override
   String toString() {
-    return 'DroidoConfig(maxLogs: $maxLogs, enableNotification: $enableNotification, notificationTitle: $notificationTitle, notificationChannelId: $notificationChannelId, notificationChannelName: $notificationChannelName, externalNotificationPlugin: $externalNotificationPlugin, includeRequestHeaders: $includeRequestHeaders, includeResponseHeaders: $includeResponseHeaders, includeRequestBody: $includeRequestBody, includeResponseBody: $includeResponseBody, maxBodySize: $maxBodySize, autoClearOnRestart: $autoClearOnRestart)';
+    return 'DroidoConfig(maxLogs: $maxLogs, enableNotification: $enableNotification, notificationTitle: $notificationTitle, notificationChannelId: $notificationChannelId, notificationChannelName: $notificationChannelName, notificationOngoing: $notificationOngoing, externalNotificationPlugin: $externalNotificationPlugin, includeRequestHeaders: $includeRequestHeaders, includeResponseHeaders: $includeResponseHeaders, includeRequestBody: $includeRequestBody, includeResponseBody: $includeResponseBody, maxBodySize: $maxBodySize, autoClearOnRestart: $autoClearOnRestart)';
   }
 }
 
@@ -128,6 +138,7 @@ abstract mixin class $DroidoConfigCopyWith<$Res> {
       String notificationTitle,
       String notificationChannelId,
       String notificationChannelName,
+      bool notificationOngoing,
       FlutterLocalNotificationsPlugin? externalNotificationPlugin,
       bool includeRequestHeaders,
       bool includeResponseHeaders,
@@ -154,6 +165,7 @@ class _$DroidoConfigCopyWithImpl<$Res> implements $DroidoConfigCopyWith<$Res> {
     Object? notificationTitle = null,
     Object? notificationChannelId = null,
     Object? notificationChannelName = null,
+    Object? notificationOngoing = null,
     Object? externalNotificationPlugin = freezed,
     Object? includeRequestHeaders = null,
     Object? includeResponseHeaders = null,
@@ -183,6 +195,10 @@ class _$DroidoConfigCopyWithImpl<$Res> implements $DroidoConfigCopyWith<$Res> {
           ? _self.notificationChannelName
           : notificationChannelName // ignore: cast_nullable_to_non_nullable
               as String,
+      notificationOngoing: null == notificationOngoing
+          ? _self.notificationOngoing
+          : notificationOngoing // ignore: cast_nullable_to_non_nullable
+              as bool,
       externalNotificationPlugin: freezed == externalNotificationPlugin
           ? _self.externalNotificationPlugin
           : externalNotificationPlugin // ignore: cast_nullable_to_non_nullable
@@ -314,6 +330,7 @@ extension DroidoConfigPatterns on DroidoConfig {
             String notificationTitle,
             String notificationChannelId,
             String notificationChannelName,
+            bool notificationOngoing,
             FlutterLocalNotificationsPlugin? externalNotificationPlugin,
             bool includeRequestHeaders,
             bool includeResponseHeaders,
@@ -333,6 +350,7 @@ extension DroidoConfigPatterns on DroidoConfig {
             _that.notificationTitle,
             _that.notificationChannelId,
             _that.notificationChannelName,
+            _that.notificationOngoing,
             _that.externalNotificationPlugin,
             _that.includeRequestHeaders,
             _that.includeResponseHeaders,
@@ -366,6 +384,7 @@ extension DroidoConfigPatterns on DroidoConfig {
             String notificationTitle,
             String notificationChannelId,
             String notificationChannelName,
+            bool notificationOngoing,
             FlutterLocalNotificationsPlugin? externalNotificationPlugin,
             bool includeRequestHeaders,
             bool includeResponseHeaders,
@@ -384,6 +403,7 @@ extension DroidoConfigPatterns on DroidoConfig {
             _that.notificationTitle,
             _that.notificationChannelId,
             _that.notificationChannelName,
+            _that.notificationOngoing,
             _that.externalNotificationPlugin,
             _that.includeRequestHeaders,
             _that.includeResponseHeaders,
@@ -416,6 +436,7 @@ extension DroidoConfigPatterns on DroidoConfig {
             String notificationTitle,
             String notificationChannelId,
             String notificationChannelName,
+            bool notificationOngoing,
             FlutterLocalNotificationsPlugin? externalNotificationPlugin,
             bool includeRequestHeaders,
             bool includeResponseHeaders,
@@ -434,6 +455,7 @@ extension DroidoConfigPatterns on DroidoConfig {
             _that.notificationTitle,
             _that.notificationChannelId,
             _that.notificationChannelName,
+            _that.notificationOngoing,
             _that.externalNotificationPlugin,
             _that.includeRequestHeaders,
             _that.includeResponseHeaders,
@@ -456,6 +478,7 @@ class _DroidoConfig extends DroidoConfig {
       this.notificationTitle = 'Debug Active',
       this.notificationChannelId = 'droido_debug_channel',
       this.notificationChannelName = 'Droido Debug',
+      this.notificationOngoing = true,
       this.externalNotificationPlugin,
       this.includeRequestHeaders = true,
       this.includeResponseHeaders = true,
@@ -489,6 +512,15 @@ class _DroidoConfig extends DroidoConfig {
   @override
   @JsonKey()
   final String notificationChannelName;
+
+  /// Make notification non-dismissable (ongoing)
+  ///
+  /// When true, the notification cannot be swiped away and will persist
+  /// until the app is closed or Droido is disposed. Useful for ensuring
+  /// debug panel is always accessible.
+  @override
+  @JsonKey()
+  final bool notificationOngoing;
 
   /// External FlutterLocalNotificationsPlugin instance
   ///
@@ -551,6 +583,8 @@ class _DroidoConfig extends DroidoConfig {
             (identical(
                     other.notificationChannelName, notificationChannelName) ||
                 other.notificationChannelName == notificationChannelName) &&
+            (identical(other.notificationOngoing, notificationOngoing) ||
+                other.notificationOngoing == notificationOngoing) &&
             (identical(other.externalNotificationPlugin,
                     externalNotificationPlugin) ||
                 other.externalNotificationPlugin ==
@@ -577,6 +611,7 @@ class _DroidoConfig extends DroidoConfig {
       notificationTitle,
       notificationChannelId,
       notificationChannelName,
+      notificationOngoing,
       externalNotificationPlugin,
       includeRequestHeaders,
       includeResponseHeaders,
@@ -587,7 +622,7 @@ class _DroidoConfig extends DroidoConfig {
 
   @override
   String toString() {
-    return 'DroidoConfig(maxLogs: $maxLogs, enableNotification: $enableNotification, notificationTitle: $notificationTitle, notificationChannelId: $notificationChannelId, notificationChannelName: $notificationChannelName, externalNotificationPlugin: $externalNotificationPlugin, includeRequestHeaders: $includeRequestHeaders, includeResponseHeaders: $includeResponseHeaders, includeRequestBody: $includeRequestBody, includeResponseBody: $includeResponseBody, maxBodySize: $maxBodySize, autoClearOnRestart: $autoClearOnRestart)';
+    return 'DroidoConfig(maxLogs: $maxLogs, enableNotification: $enableNotification, notificationTitle: $notificationTitle, notificationChannelId: $notificationChannelId, notificationChannelName: $notificationChannelName, notificationOngoing: $notificationOngoing, externalNotificationPlugin: $externalNotificationPlugin, includeRequestHeaders: $includeRequestHeaders, includeResponseHeaders: $includeResponseHeaders, includeRequestBody: $includeRequestBody, includeResponseBody: $includeResponseBody, maxBodySize: $maxBodySize, autoClearOnRestart: $autoClearOnRestart)';
   }
 }
 
@@ -605,6 +640,7 @@ abstract mixin class _$DroidoConfigCopyWith<$Res>
       String notificationTitle,
       String notificationChannelId,
       String notificationChannelName,
+      bool notificationOngoing,
       FlutterLocalNotificationsPlugin? externalNotificationPlugin,
       bool includeRequestHeaders,
       bool includeResponseHeaders,
@@ -632,6 +668,7 @@ class __$DroidoConfigCopyWithImpl<$Res>
     Object? notificationTitle = null,
     Object? notificationChannelId = null,
     Object? notificationChannelName = null,
+    Object? notificationOngoing = null,
     Object? externalNotificationPlugin = freezed,
     Object? includeRequestHeaders = null,
     Object? includeResponseHeaders = null,
@@ -661,6 +698,10 @@ class __$DroidoConfigCopyWithImpl<$Res>
           ? _self.notificationChannelName
           : notificationChannelName // ignore: cast_nullable_to_non_nullable
               as String,
+      notificationOngoing: null == notificationOngoing
+          ? _self.notificationOngoing
+          : notificationOngoing // ignore: cast_nullable_to_non_nullable
+              as bool,
       externalNotificationPlugin: freezed == externalNotificationPlugin
           ? _self.externalNotificationPlugin
           : externalNotificationPlugin // ignore: cast_nullable_to_non_nullable

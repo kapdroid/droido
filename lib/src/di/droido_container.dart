@@ -40,6 +40,7 @@ class DroidoContainer {
     _notificationRepository = FlutterNotificationRepository(
       channelId: config.notificationChannelId,
       channelName: config.notificationChannelName,
+      notificationOngoing: config.notificationOngoing,
       externalPlugin: config.externalNotificationPlugin,
     );
 

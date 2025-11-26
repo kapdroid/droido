@@ -25,7 +25,6 @@ mixin _$NetworkLog {
   dynamic get responseBody;
   int? get durationMs;
   String? get errorMessage;
-  @JsonKey(includeFromJson: false, includeToJson: false)
   StackTrace? get stackTrace;
 
   /// Create a copy of NetworkLog
@@ -103,7 +102,6 @@ abstract mixin class $NetworkLogCopyWith<$Res> {
       dynamic responseBody,
       int? durationMs,
       String? errorMessage,
-      @JsonKey(includeFromJson: false, includeToJson: false)
       StackTrace? stackTrace});
 }
 
@@ -290,7 +288,6 @@ extension NetworkLogPatterns on NetworkLog {
             dynamic responseBody,
             int? durationMs,
             String? errorMessage,
-            @JsonKey(includeFromJson: false, includeToJson: false)
             StackTrace? stackTrace)?
         $default, {
     required TResult orElse(),
@@ -343,7 +340,6 @@ extension NetworkLogPatterns on NetworkLog {
             dynamic responseBody,
             int? durationMs,
             String? errorMessage,
-            @JsonKey(includeFromJson: false, includeToJson: false)
             StackTrace? stackTrace)
         $default,
   ) {
@@ -394,7 +390,6 @@ extension NetworkLogPatterns on NetworkLog {
             dynamic responseBody,
             int? durationMs,
             String? errorMessage,
-            @JsonKey(includeFromJson: false, includeToJson: false)
             StackTrace? stackTrace)?
         $default,
   ) {
@@ -435,7 +430,7 @@ class _NetworkLog extends NetworkLog {
       this.responseBody,
       this.durationMs,
       this.errorMessage,
-      @JsonKey(includeFromJson: false, includeToJson: false) this.stackTrace})
+      this.stackTrace})
       : _requestHeaders = requestHeaders,
         _responseHeaders = responseHeaders,
         super._();
@@ -479,7 +474,6 @@ class _NetworkLog extends NetworkLog {
   @override
   final String? errorMessage;
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
   final StackTrace? stackTrace;
 
   /// Create a copy of NetworkLog
@@ -560,7 +554,6 @@ abstract mixin class _$NetworkLogCopyWith<$Res>
       dynamic responseBody,
       int? durationMs,
       String? errorMessage,
-      @JsonKey(includeFromJson: false, includeToJson: false)
       StackTrace? stackTrace});
 }
 

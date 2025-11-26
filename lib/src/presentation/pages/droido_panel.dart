@@ -76,7 +76,6 @@ class _DroidoPanelState extends State<DroidoPanel> {
                 return ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   itemCount: logs.length,
-                  reverse: true, // Newest first
                   itemBuilder: (context, index) {
                     final log = logs[index];
                     return NetworkCard(

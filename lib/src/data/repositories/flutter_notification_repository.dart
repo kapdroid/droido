@@ -14,6 +14,7 @@ class FlutterNotificationRepository implements NotificationRepository {
     required this.channelId,
     required this.channelName,
     this.notificationId = 999999,
+    this.notificationOngoing = true,
     FlutterLocalNotificationsPlugin? externalPlugin,
   })  : _plugin = externalPlugin ?? FlutterLocalNotificationsPlugin(),
         _isExternalPlugin = externalPlugin != null;
@@ -21,6 +22,7 @@ class FlutterNotificationRepository implements NotificationRepository {
   final String channelId;
   final String channelName;
   final int notificationId;
+  final bool notificationOngoing;
 
   final FlutterLocalNotificationsPlugin _plugin;
   final bool _isExternalPlugin;
@@ -183,8 +185,8 @@ class FlutterNotificationRepository implements NotificationRepository {
         channelDescription: 'Tap to open debug panel',
         importance: Importance.high,
         priority: Priority.high,
-        ongoing: false,
-        autoCancel: false,
+        ongoing: notificationOngoing,
+        autoCancel: !notificationOngoing,
         showWhen: false,
         enableVibration: false,
         playSound: false,
@@ -252,14 +254,50 @@ class FlutterNotificationRepository implements NotificationRepository {
 
   @override
   Future<bool> requestPermission() async {
-    if (Platform.isAndroid && Platform.version.contains('13')) {
+    if (!kDebugMode) return true;
+
+    if (Platform.isAndroid) {
       final androidImpl = _plugin.resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>();
-      return await androidImpl?.requestNotificationsPermission() ?? false;
+
+      if (androidImpl == null) return false;
+
+      // Check if notifications are already enabled
+      final areEnabled = await androidImpl.areNotificationsEnabled() ?? false;
+
+      if (areEnabled) {
+        if (kDebugMode) {
+          print('✅ Droido: Notifications already enabled');
+        }
+        return true;
+      }
+
+      // Request permission for Android 13+ (API 33+)
+      if (kDebugMode) {
+        print('🔔 Droido: Requesting notification permission...');
+      }
+
+      final granted =
+          await androidImpl.requestNotificationsPermission() ?? false;
+
+      if (kDebugMode) {
+        if (granted) {
+          print('✅ Droido: Notification permission granted');
+        } else {
+          print('⚠️ Droido: Notification permission denied');
+        }
+      }
+
+      return granted;
     } else if (Platform.isIOS) {
       final iosImpl = _plugin.resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin>();
-      return await iosImpl?.requestPermissions() ?? false;
+      return await iosImpl?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: false,
+          ) ??
+          false;
     }
     return true;
   }

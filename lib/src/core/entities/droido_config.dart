@@ -30,6 +30,13 @@ abstract class DroidoConfig with _$DroidoConfig {
     /// Notification channel name (Android)
     @Default('Droido Debug') String notificationChannelName,
 
+    /// Make notification non-dismissable (ongoing)
+    ///
+    /// When true, the notification cannot be swiped away and will persist
+    /// until the app is closed or Droido is disposed. Useful for ensuring
+    /// debug panel is always accessible.
+    @Default(true) bool notificationOngoing,
+
     /// External FlutterLocalNotificationsPlugin instance
     ///
     /// Provide this if your app already has a notification plugin instance

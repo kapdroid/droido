@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:droido/src/core/entities/droido_config.dart';
 import 'package:droido/src/core/entities/network_log.dart';
@@ -20,7 +18,6 @@ class DroidoManager {
 
   bool _isInitialized = false;
   DroidoConfig? _config;
-  Timer? _notificationTimer;
   DroidoInterceptor? _interceptor;
 
   /// Initialize Droido with Dio instance
@@ -38,8 +35,8 @@ class DroidoManager {
       await DroidoContainer.instance.notificationRepository.initialize();
       await DroidoContainer.instance.notificationRepository.requestPermission();
 
-      // Start periodic notification updates
-      _startNotificationUpdates();
+      // Show static notification
+      await _showStaticNotification();
     }
 
     // Add Dio interceptor
@@ -155,26 +152,12 @@ class DroidoManager {
   /// Check if initialized
   bool get isInitialized => kDebugMode && _isInitialized;
 
-  void _startNotificationUpdates() {
-    _notificationTimer?.cancel();
-    _notificationTimer = Timer.periodic(
-      const Duration(seconds: 5),
-      (_) => _updateNotification(),
-    );
-    _updateNotification(); // Initial update
-  }
-
-  Future<void> _updateNotification() async {
-    if (!kDebugMode || !_isInitialized) return;
-
-    final count = DroidoContainer.instance.logRepository.getLogCount();
-    final body = count == 0
-        ? 'Tap to open • No requests yet'
-        : 'Tap to open • $count requests';
+  Future<void> _showStaticNotification() async {
+    if (!kDebugMode) return;
 
     await DroidoContainer.instance.notificationRepository.showNotification(
       title: _config!.notificationTitle,
-      body: body,
+      body: 'Tap to open debug panel',
     );
   }
 
@@ -182,9 +165,6 @@ class DroidoManager {
   Future<void> dispose() async {
     if (!kDebugMode) return;
     if (!_isInitialized) return;
-
-    _notificationTimer?.cancel();
-    _notificationTimer = null;
 
     await DroidoContainer.instance.notificationRepository.dispose();
     await DroidoContainer.instance.logRepository.dispose();
