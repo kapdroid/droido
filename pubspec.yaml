@@ -1,0 +1,37 @@
+name: droido
+description: A lightweight debug-only network inspector for Flutter with persistent notification UI and clean modern design. Zero impact on release builds.
+version: 1.0.1
+repository: https://github.com/kapdroid/droido
+issue_tracker: https://github.com/kapdroid/droido/issues
+topics:
+  - debug
+  - network
+  - inspector
+  - dio
+  - logging
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.4.0
+  flutter_local_notifications: ^19.1.0
+  rxdart: ^0.28.0
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
+  intl: ^0.20.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.4.9
+  freezed: ^3.0.6
+  json_serializable: ^6.8.0
+  flutter_lints: ^4.0.0
+  mockito: ^5.4.4
+
+flutter:
+  uses-material-design: true
