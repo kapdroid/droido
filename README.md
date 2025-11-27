@@ -21,7 +21,11 @@ A lightweight, debug-only network inspector for Flutter apps using **Dio HTTP cl
 
 Watch the latest walkthrough directly below:
 
-https://github.com/user-attachments/assets/5fc2c999-7ef2-4e02-86cd-98507a1ceba6
+<p float="left">
+  <img src="https://raw.githubusercontent.com/kapdroid/droido/620b64d497b9971658a7b8fba7988b837a1e1e15/assets/Screenshot_20251127_154627.png" width="250"/>
+  <img src="https://raw.githubusercontent.com/kapdroid/droido/620b64d497b9971658a7b8fba7988b837a1e1e15/assets/Screenshot_20251127_154744.png" width="250"/>
+  <img src="https://raw.githubusercontent.com/kapdroid/droido/620b64d497b9971658a7b8fba7988b837a1e1e15/assets/Screenshot_20251127_154752.png" width="250"/>
+</p>
 
 ## 📦 Installation
 
@@ -29,7 +33,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  droido: ^1.0.2
+  droido: ^1.0.3
   dio: ^5.4.0  # Required peer dependency
 ```
 
