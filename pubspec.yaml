@@ -1,6 +1,6 @@
 name: droido
 description: A lightweight debug-only network inspector for Flutter apps using Dio HTTP client. Features persistent notification UI and clean modern design. Zero impact on release builds.
-version: 1.0.2
+version: 1.0.3
 repository: https://github.com/kapdroid/droido
 issue_tracker: https://github.com/kapdroid/droido/issues
 topics:
