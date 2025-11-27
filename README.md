@@ -17,13 +17,19 @@ A lightweight, debug-only network inspector for Flutter apps using **Dio HTTP cl
 - 📊 **Detailed Metrics** - Request time, response size, duration with color-coded indicators
 - 🏗️ **Clean Architecture** - SOLID principles, testable, maintainable
 
+## ✨ Demo
+
+Watch the latest walkthrough directly below:
+
+https://github.com/user-attachments/assets/5fc2c999-7ef2-4e02-86cd-98507a1ceba6
+
 ## 📦 Installation
 
 Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  droido: ^1.0.0
+  droido: ^1.0.2
   dio: ^5.4.0  # Required peer dependency
 ```
 
@@ -83,7 +89,34 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 ```
+### Already have Notification Local Notification
+```dart
+// No need to implement
+  Droido.setNotificationCallback(() {
+    // Navigate to debug panel
+    navigatorKey.currentState?.push(
+      MaterialPageRoute(builder: (_) => const DroidoPanel()),
+    );
+  });
 
+// Inside your existing onDidReceiveNotificationResponse callback
+// details.payload should '{"type":"droido"}'
+if (isDebug) {
+  Droido.handlePayload(details.payload);   // where details is 
+}
+
+// Example using flutter_local_notifications
+_notificationsPlugin.initialize(
+  initializationSettings,
+  onDidReceiveNotificationResponse: (NotificationResponse details) {
+    // Forward the payload to Droido in debug mode
+    if (isDebug) {
+      Droido.handlePayload(details.payload);
+    }
+  },
+);
+
+```
 ### With Configuration
 
 ```dart

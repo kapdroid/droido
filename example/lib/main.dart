@@ -10,7 +10,7 @@ void main() async {
   // Create Dio instance
   final dio = Dio(
     BaseOptions(
-      baseUrl: 'https://www.google.com',
+      baseUrl: 'http://jsonplaceholder.typicode.com/',
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
     ),
